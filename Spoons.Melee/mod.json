@@ -4,7 +4,17 @@
     "Version": "1.0.0",
 
     "LoadPriority": 1,
-    "ConVars": [],
+    "ConVars": [
+        {
+            "Name": "Melee_Suicide",
+            "DefaultValue": "1"
+        },
+        {
+            "Name": "Melee_Damage",
+            "DefaultValue": "0"
+        }
+        
+    ],
     "Scripts": [
         
     ],

@@ -234,10 +234,19 @@ function HumanMeleeAttack_DoImpact( entity player, entity meleeWeapon, traceResu
 	printt( "SERVER: HumanMeleeAttack_DoImpact() applying damage to " + target + "\n" )
 
 	if ( target.IsNPC() && target.CanBeGroundExecuted() )
-		player.TakeDamage( target.GetHealth(), player, player, { scriptType = DF_RAGDOLL | meleeWeapon.GetWeaponDamageFlags(), damageType = DMG_MELEE_ATTACK, damageSourceId = damageSource, origin = traceResult.position, force = Vector( 0, 0, 0 ) } )
-	else
-		player.TakeDamage( damageAmount, player, player, { scriptType = meleeWeapon.GetWeaponDamageFlags(), damageType = DMG_MELEE_ATTACK, damageSourceId = damageSource, origin = traceResult.position, force = damageForce } )
-
+		
+		target.TakeDamage( target.GetHealth(), player, player, { scriptType = DF_RAGDOLL | meleeWeapon.GetWeaponDamageFlags(), damageType = DMG_MELEE_ATTACK, damageSourceId = damageSource, origin = traceResult.position, force = Vector( 0, 0, 0 ) } )
+		
+	else if (target.IsPlayer())
+		if (GetConVarInt( "Melee_Suicide" ) == 1){
+			player.TakeDamage( damageAmount, player, player, { scriptType = meleeWeapon.GetWeaponDamageFlags(), damageType = DMG_MELEE_ATTACK, damageSourceId = damageSource, origin = traceResult.position, force = damageForce } )
+		}
+		if (GetConVarInt( "Melee_Damage" ) == 1){
+			target.TakeDamage( damageAmount, player, player, { scriptType = meleeWeapon.GetWeaponDamageFlags(), damageType = DMG_MELEE_ATTACK, damageSourceId = damageSource, origin = traceResult.position, force = damageForce } )
+		}
+	else {
+		target.TakeDamage( damageAmount, player, player, { scriptType = meleeWeapon.GetWeaponDamageFlags(), damageType = DMG_MELEE_ATTACK, damageSourceId = damageSource, origin = traceResult.position, force = damageForce } )
+	}
 	// PROTO DEV
 	if ( IsSingleplayer() )
 	{
